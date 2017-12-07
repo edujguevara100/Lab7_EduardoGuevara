@@ -68,26 +68,27 @@ public class Cajero implements Runnable {
     @Override
     public void run() {
         while (true) {
-            for (int i = 0; i < poratender.size() - 1; i++) {
-                ((Ventanas) (this.frame)).getjLabel10().setText(poratender.get(i).toString());
+            while (poratender.size() > 0) {
+                ((Ventanas) (this.frame)).getTf_product().setText(poratender.get(0).toString());
+                System.out.println(poratender.size());
                 try {
-                    Thread.sleep(poratender.get(i).getTiempo() * 1000);
+                    Thread.sleep(poratender.get(0).getTiempo() * 1000);
                     DefaultTableModel modelo = (DefaultTableModel) ((Ventanas) (this.frame)).getJt_tabla().getModel();
                     Object[] newrow = {
-                        poratender.get(i).getNombre(),
+                        poratender.get(0).getNombre(),
                         ((Ventanas) (this.frame)).getJl_nombrec().getText(),
-                        poratender.get(i).getTiempo(),};
+                        poratender.get(0).getTiempo(),};
                     modelo.addRow(newrow);
                     ((Ventanas) (this.frame)).getJt_tabla().setModel(modelo);
-                    poratender.remove(i);
+                    poratender.remove(0);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
-            }
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Cajero.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Cajero.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }

@@ -460,7 +460,9 @@ public class Main extends javax.swing.JFrame {
     private void bt_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_agregarMouseClicked
         // TODO add your handling code here:
         if (cb_productos.getSelectedIndex() != -1) {
-            act.getLista().add((Productos) (cb_productos.getSelectedItem()));
+            cajact = (Cajero)cb_cajeros.getSelectedItem();
+            //act.getLista().add((Productos) (cb_productos.getSelectedItem()));
+            cajact.getPoratender().add((Productos)cb_productos.getSelectedItem());
             DefaultComboBoxModel modelo = (DefaultComboBoxModel) cb_productos.getModel();
             modelo.removeElementAt(cb_productos.getSelectedIndex());
             cb_productos.setModel(modelo);
@@ -471,7 +473,6 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (cb_cajeros.getSelectedIndex() != -1) {
             cajact = (Cajero) cb_cajeros.getSelectedItem();
-            cajact.getPoratender().addAll(act.getLista());
             ((Ventanas)(cajact.getFrame())).getJl_nombrec().setText(act.getCliente().toString());
             Thread compra = new Thread(cajact);
             compra.start();
