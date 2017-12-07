@@ -86,6 +86,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         bt_compra.setText("Realizar Compra");
+        bt_compra.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_compraMouseClicked(evt);
+            }
+        });
 
         jLabel11.setText("Edad:");
 
@@ -411,7 +416,7 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nombre = tf_nomprodu.getText();
         double precio = (Integer) js_precio.getValue();
-        int tiempo = (Integer)js_tiempo.getValue();
+        int tiempo = (Integer) js_tiempo.getValue();
         DefaultComboBoxModel modelo = (DefaultComboBoxModel) cb_productos.getModel();
         modelo.addElement(new Productos(nombre, precio, tiempo));
         cb_productos.setModel(modelo);
@@ -449,6 +454,7 @@ public class Main extends javax.swing.JFrame {
     private void bt_crearordenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearordenMouseClicked
         // TODO add your handling code here:
         act.setCliente(new Cliente(tf_nomcliente.getText(), (Integer) js_edad.getValue()));
+        bt_crearorden.setEnabled(false);
     }//GEN-LAST:event_bt_crearordenMouseClicked
 
     private void bt_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_agregarMouseClicked
@@ -460,6 +466,18 @@ public class Main extends javax.swing.JFrame {
             cb_productos.setModel(modelo);
         }
     }//GEN-LAST:event_bt_agregarMouseClicked
+
+    private void bt_compraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_compraMouseClicked
+        // TODO add your handling code here:
+        if (cb_cajeros.getSelectedIndex() != -1) {
+            cajact = (Cajero) cb_cajeros.getSelectedItem();
+            cajact.getPoratender().addAll(act.getLista());
+            ((Ventanas)(cajact.getFrame())).getJl_nombrec().setText(act.getCliente().toString());
+            Thread compra = new Thread(cajact);
+            compra.start();
+        }
+        bt_crearorden.setEnabled(true);
+    }//GEN-LAST:event_bt_compraMouseClicked
 
     /**
      * @param args the command line arguments
@@ -542,5 +560,6 @@ public class Main extends javax.swing.JFrame {
     ArrayList<Productos> produ = new ArrayList();
     ArrayList<Cajero> caj = new ArrayList();
     Cajero cajact;
-    Orden act;
+    Orden act = new Orden();
+
 }

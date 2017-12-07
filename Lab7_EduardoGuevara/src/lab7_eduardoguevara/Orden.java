@@ -17,6 +17,9 @@ public class Orden {
     private Cliente cliente;
     private ArrayList<Productos> lista = new ArrayList();
 
+    public Orden() {
+    }
+    
     public Orden(Cajero cajero, Cliente cliente) {
         this.cajero = cajero;
         this.cliente = cliente;

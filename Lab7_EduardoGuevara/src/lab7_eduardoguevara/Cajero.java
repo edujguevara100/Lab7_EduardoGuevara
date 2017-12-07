@@ -6,13 +6,16 @@
 package lab7_eduardoguevara;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author edujg
  */
-public class Cajero {
+public class Cajero implements Runnable {
 
     private String nombre;
     private String id;
@@ -62,4 +65,30 @@ public class Cajero {
         this.frame = frame;
     }
 
+    @Override
+    public void run() {
+        while (true) {
+            for (int i = 0; i < poratender.size() - 1; i++) {
+                ((Ventanas) (this.frame)).getjLabel10().setText(poratender.get(i).toString());
+                try {
+                    Thread.sleep(poratender.get(i).getTiempo() * 1000);
+                    DefaultTableModel modelo = (DefaultTableModel) ((Ventanas) (this.frame)).getJt_tabla().getModel();
+                    Object[] newrow = {
+                        poratender.get(i).getNombre(),
+                        ((Ventanas) (this.frame)).getJl_nombrec().getText(),
+                        poratender.get(i).getTiempo(),};
+                    modelo.addRow(newrow);
+                    ((Ventanas) (this.frame)).getJt_tabla().setModel(modelo);
+                    poratender.remove(i);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cajero.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }
