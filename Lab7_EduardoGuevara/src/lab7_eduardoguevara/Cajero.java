@@ -81,6 +81,7 @@ public class Cajero implements Runnable {
                     modelo.addRow(newrow);
                     ((Ventanas) (this.frame)).getJt_tabla().setModel(modelo);
                     poratender.remove(0);
+                    ((Ventanas) (this.frame)).getTf_product().setText("");
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
